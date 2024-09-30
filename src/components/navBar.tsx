@@ -15,6 +15,7 @@ const NavBar = () => {
 
     const path= usePathname()
     // const [ isSidebarOpen, setSidebarOpen ] = useState<boolean>(true)
+    //
 
     const isCurrent = (pathname: string) => pathname === path
     const {storedData, data, isPending, error} = FetchWithLocalStorage('categories', 'categoriesKey', undefined, 'cocktails/categories')
