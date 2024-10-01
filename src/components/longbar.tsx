@@ -1,21 +1,36 @@
 // import Link from "next/link";
 import Option from "@/components/option";
+import React from "react";
 
+
+export interface IOption {
+    category: string;
+    label: string;
+    pathname: string;
+}
 
 interface IlongBar {
-    isCurrent: (pathname: string) => boolean;
+    isCurrent: (category: string) => boolean;
+    options: IOption[];
+    onClick: (category: string) => void;
 }
 
 
-const Longbar = ({isCurrent}: IlongBar) => {
+const Longbar = ({isCurrent, options, onClick}: IlongBar) => {
     return (
-        <div className="hidden md:flex space-x-4 absolute left-1/2 transform -translate-x-1/2 items-center">
-            <Option isCurrent={isCurrent} pathname={'/'}>Home</Option>
-            <span className={'h-6 w-[1px] bg-gray-800 inline-block'}/>
-            <Option isCurrent={isCurrent} pathname={'/favourites'}>Favourites</Option>
-
+        <div className="hidden md:flex 2 items-center">
+            {options.map((option, index) => (
+                <React.Fragment key={option.category}>
+                    <Option isCurrent={isCurrent} onClick={onClick} pathname={option.pathname} category={option.category}>
+                        {option.label}
+                    </Option>
+                    {index !== options.length - 1 && (
+                        <span className={'h-6 w-[1px] bg-gray-800 inline-block'}/>
+                    )}
+                </React.Fragment>
+            ))}
         </div>
-    )
+            )
 }
 
 export default Longbar;
