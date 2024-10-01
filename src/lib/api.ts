@@ -40,7 +40,7 @@ export const FetchWithLocalStorage = <T>(
 
     if (data) {
         if (typeof window !== 'undefined') {
-            window.localStorage.setItem(localStorageKey, JSON.stringify(data))
+            window.localStorage.setItem(localStorageKey, JSON.stringify(data.data))
         }
     }
 

@@ -20,7 +20,7 @@ const Option = ({isCurrent,  onClick, children, pathname, category}: IOption) =>
         <Link href={pathname} passHref>
             <Button
                 variant={'ghost'}
-                className={`text-smoky_black font-semibold p-8 ${isCurrent(category) ? 'underline' : ''}`}
+                className={`text-smoky_black font-semibold lg:text-xl p-8 ${isCurrent(category) ? 'underline' : ''}`}
                 onClick={handleClick}>
                 {children}
             </Button>

@@ -18,7 +18,7 @@ interface IlongBar {
 
 const Longbar = ({isCurrent, options, onClick}: IlongBar) => {
     return (
-        <div className="hidden md:flex 2 items-center">
+        <div className="hidden md:flex items-center">
             {options.map((option, index) => (
                 <React.Fragment key={option.category}>
                     <Option isCurrent={isCurrent} onClick={onClick} pathname={option.pathname} category={option.category}>
