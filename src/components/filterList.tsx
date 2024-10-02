@@ -1,20 +1,14 @@
 "use client"
 import {currentFiltersAtom} from "@/lib/FiltersAtom";
 import {useAtom} from "jotai";
-import {MixerHorizontalIcon} from "@radix-ui/react-icons";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
 import React, {useEffect, useState} from "react";
 import {FetchWithLocalStorage} from "@/lib/api";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Skeleton} from "@/components/ui/skeleton";
-import {Label} from "@/components/ui/label";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
 const FilterList = () => {
@@ -22,13 +16,14 @@ const FilterList = () => {
     const [currentFilters, setCurrentFilters] = useAtom(currentFiltersAtom);
     const [categories, setCategories] = useState<string[]>([])
     const [glassesTypes, setGlassesTypes] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const {storedData: localCategories,
         data: fetchedCategories,
         isPending: isPendingCategories,
         error: errorCategories} = FetchWithLocalStorage('categories', 'categoriesKey', undefined, 'cocktails/categories')
 
-    console.log(localCategories, fetchedCategories, isPendingCategories, errorCategories)
+    console.log('IIIIIII',isPendingCategories)
 
     const {storedData: localGlasses,
         data: fetchedGlasses,
@@ -38,14 +33,19 @@ const FilterList = () => {
     console.log(localGlasses, fetchedGlasses, isPendingGlasses, errorGlasses)
 
     useEffect(() => {
+        console.log('CATEGORIES')
         if (fetchedCategories) setCategories(fetchedCategories.data);
         else if (localCategories) setCategories(localCategories);
-    },[localCategories, fetchedCategories])
+    },[localCategories, fetchedCategories, categories])
 
     useEffect(() => {
         if (fetchedGlasses) setGlassesTypes(fetchedGlasses.data);
         else if (localGlasses) setGlassesTypes(localGlasses);
-    },[localGlasses, localGlasses])
+    },[localGlasses, fetchedGlasses, glassesTypes])
+
+    useEffect(() => {
+        if (!isPendingCategories && !isPendingGlasses && categories && glassesTypes) setIsLoading(false);
+    }, [isPendingGlasses, isPendingCategories, categories, glassesTypes]);
 
     const handleCheckboxChange = (type: keyof typeof currentFilters, value: string | boolean) => {
         setCurrentFilters((prev) => ({
@@ -59,71 +59,72 @@ const FilterList = () => {
         <div>Something went wrong</div>
     )}
 
-    if (isPendingCategories || isPendingGlasses){
+    if (isLoading){
+        console.log("TRUE")
         return (
             <div>
-                <DropdownMenuItem>
-                    <Skeleton/>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Skeleton/>
-                </DropdownMenuItem>
+                <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-[125px] w-[250px] rounded-xl"/>
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-[250px]"/>
+                        <Skeleton className="h-4 w-[200px]"/>
+                    </div>
+                </div>
+            </div>
+        )
+
+    }
+
+
+    function isChecked<T>(key: keyof typeof currentFilters, value: T): boolean {
+        return currentFilters[key] === value;
+
+    }
+
+    type FilterItemProps = {
+        label: string;
+        list: string[];
+        ItemKey: keyof typeof currentFilters
+    }
+
+
+    const FilterItem: React.FC<FilterItemProps> = ({label,list,ItemKey}) => {
+        return (
+            <div>
+                <DropdownMenuLabel>{label}</DropdownMenuLabel>
+                <DropdownMenuSeparator/>
+                <ScrollArea className={'h-16'}>
+                    {list.map((value: string) =>
+                        <DropdownMenuItem key={value}>
+                            <div className="flex space-x-2">
+                                <Checkbox id={label} checked={isChecked(ItemKey,value)}
+                                          onCheckedChange={() => handleCheckboxChange(ItemKey, value)} />
+                                <label
+                                    htmlFor="terms"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    {value}
+                                </label>
+                            </div>
+                        </DropdownMenuItem>
+                    )}</ScrollArea>
             </div>
         )
     }
 
-    console.log('QQQQQQQQQ', categories)
-    console.log('YYYYYYY', localCategories)
-
-    const isChecked = () => {
-
-    }
+    console.log('QQQQQQ',currentFilters)
 
 
     return (
         <div className="flex-col flex">
-            <DropdownMenuLabel>Categories</DropdownMenuLabel>
-            <DropdownMenuSeparator/>
-            <ScrollArea className={'h-16'}>
-            {categories.map((category: string) =>
-                <DropdownMenuItem>
-                    <div className="flex space-x-2">
-                        <Checkbox id="terms" key={category} checked={currentFilters.category === category}
-                                  onCheckedChange={() => handleCheckboxChange('category', category)} />
-                        <label
-                            htmlFor="terms"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            {category}
-                        </label>
-                    </div>
-                </DropdownMenuItem>
-            )}</ScrollArea>
-            <DropdownMenuLabel>Glass types</DropdownMenuLabel>
-            <DropdownMenuSeparator/>
-            <ScrollArea className={'h-16'}>
-                {glassesTypes.map((type: string) =>
-                    <DropdownMenuItem>
-                        <div className="flex space-x-2">
-                            <Checkbox id="terms" key={type} checked={currentFilters.glass === type}
-                                      onCheckedChange={() => handleCheckboxChange('glass', type)} />
-                            <label
-                                htmlFor="terms"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                                {type}
-                            </label>
-                        </div>
-                    </DropdownMenuItem>
-                )}</ScrollArea>
-
+            <FilterItem label={"Categories"} list={categories} ItemKey={'category'}/>
+            <FilterItem label={"Glass types"} list={glassesTypes} ItemKey={'glass'}/>
         </div>
-
-
-
-)
+    )
 
 }
+
+
 
 
 
