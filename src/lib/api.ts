@@ -50,8 +50,6 @@ export const useFetch = <T>(
         isPending,
         error,
     }
-
-
 }
 
 
