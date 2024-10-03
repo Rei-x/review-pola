@@ -15,6 +15,7 @@ interface Pagination {
 
 export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,perPage,previousPageUrl, total}:Pagination) {
     const path = usePathname()
+    console.log(previousPageUrl)
     return (
         <Pagination>
             <PaginationContent>

@@ -37,7 +37,8 @@ export const FetchWithLocalStorage = <T>(
     const {isPending, error, data} = useQuery({
         queryKey: [queryKey],
         queryFn: fetch,
-        staleTime: Infinity
+        staleTime: Infinity,
+        // cacheTime: Infinity,
     })
 
     if (data) {

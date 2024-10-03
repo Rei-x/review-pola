@@ -1,15 +1,14 @@
 "use client"
 import {currentFiltersAtom} from "@/lib/FiltersAtom";
 import {useAtom} from "jotai";
-import {
-    DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+import {DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,} from "@/components/ui/dropdown-menu";
 import React, {useEffect, useState} from "react";
 import {FetchWithLocalStorage} from "@/lib/api";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Skeleton} from "@/components/ui/skeleton";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import {Button} from "@/components/ui/button";
+import {RESET} from 'jotai/utils'
 
 const FilterList = () => {
 
@@ -112,13 +111,15 @@ const FilterList = () => {
         )
     }
 
-    // console.log('QQQQQQ',currentFilters)
 
 
     return (
         <div className="flex-col flex">
             <FilterItem label={"Categories"} list={categories} ItemKey={'category'}/>
             <FilterItem label={"Glass types"} list={glassesTypes} ItemKey={'glass'}/>
+            <DropdownMenuItem>
+                <Button className={"bg-background pt-3 w-full"} onClick={() => setCurrentFilters((RESET))}>Reset</Button>
+            </DropdownMenuItem>
         </div>
     )
 

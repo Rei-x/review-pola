@@ -1,4 +1,5 @@
 import {atom} from "jotai";
+import {atomWithStorage} from 'jotai/utils'
 
 interface Filters {
     category: string | null;
@@ -18,8 +19,8 @@ const defaultFilters: Filters = {
     instructions: null,
 }
 
-export const currentFiltersAtom = atom<Filters>(defaultFilters)
+export const currentFiltersAtom = atomWithStorage<Filters>('filters',defaultFilters)
 
-export const resetFilters = atom(null, (get, set) => set(currentFiltersAtom, defaultFilters));
+// export const resetFilters = atomWithStorage('filters', (get: any, set: any) => set(currentFiltersAtom, defaultFilters));
 
-export const currentPageAtom = atom<number>(1)
+// export const currentPageAtom = atom<number>(1)

@@ -17,11 +17,11 @@ const CocktailList = () => {
     const router = useRouter();
 
 
-    useEffect(() => {
-        const newQueryParams = new URLSearchParams(searchParamaters.toString());
-        newQueryParams.set('page','1')
-        router.push(`?${newQueryParams.toString()}`);
-    }, [filters, router, searchParamaters]);
+    // useEffect(() => {
+    //     const newQueryParams = new URLSearchParams(searchParamaters.toString());
+    //     newQueryParams.set('page','1')
+    //     router.push(`?${newQueryParams.toString()}`);
+    // }, [filters, router, searchParamaters]);
 
 
     const buildQueryParams = () => {
