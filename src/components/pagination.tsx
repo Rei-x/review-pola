@@ -13,7 +13,7 @@ interface Pagination {
     currentPage: string, firstPage: string,firstPageUrl: string,lastPage:string,lastPageUrl:string,nextPageUrl:string,perPage:string,previousPageUrl:string, total:string
 }
 
-export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,perPage,previousPageUrl, total}:Pagination) {
+export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,previousPageUrl}:Pagination) {
     const path = usePathname()
     const searchParams = useSearchParams();
 

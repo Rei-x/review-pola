@@ -5,12 +5,14 @@ import {PaginationDemo} from "./pagination";
 import {Cocktail} from "@/lib/ProductListTypes";
 import CocktailCard from "@/components/cocktailCard";
 import {useGetSearchParams} from "@/lib/searchParamsManager";
+import {favouritesAtom} from "@/lib/favouritesAtom";
 
 
 const CocktailList = () => {
 
     const [filters, setFilters] = useAtom(currentFiltersAtom);
     const getCurrentParam = useGetSearchParams()
+    const [favourites, setFavourites] = useAtom(favouritesAtom);
 
 
     const buildQueryParams = () => {
@@ -18,15 +20,18 @@ const CocktailList = () => {
         if (filters.category ) queryParams.append("category", filters.category);
         if (filters.glass) queryParams.append("glass", filters.glass);
         if (filters.sort) queryParams.append("sort", filters.sort);
-        // if (filters.alcoholic !== null) queryParams.append("alcoholic", filters.alcoholic ? 'true' : 'false')
         if (filters.name) queryParams.append("name", filters.name);
-        // queryParams.append("name", 'Brandy Alexander');
         if (filters.instructions) queryParams.append("instructions", filters.instructions);
-        // queryParams.append('page', currentPage.toString())
         queryParams.append('page', getCurrentParam('page')?.toString() || '1')
         const category = getCurrentParam('category')?.toString() || 'home'
         const alcoholic = category!=='home' ? (category==='alcoholic' ? 'true' : 'false') : null
         if (alcoholic) queryParams.append("alcoholic", alcoholic)
+        const isFavouritesQuery = getCurrentParam('favourites')?.toString() || 'false';
+        if (isFavouritesQuery !== 'false') {
+            favourites.forEach((id) => {
+                queryParams.append('id[]', id)
+            })
+        }
         return queryParams;
     }
 
@@ -37,7 +42,7 @@ const CocktailList = () => {
 
     if (isPending) return <div>Loading...</div>;
 
-    if (error) throw error;
+    if (error) return <div>Something went wrong</div>;
 
     if (data.data.length === 0) return <div className={'items-center justify-center flex'}>No results.</div>;
 
