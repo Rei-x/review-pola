@@ -1,3 +1,3 @@
-import {atom} from 'jotai'
+import {atomWithStorage} from 'jotai/utils'
 
-export const favouritesAtom = atom<string[]>([]);
+export const favouritesAtom = atomWithStorage<string[]>('favourites',[]);

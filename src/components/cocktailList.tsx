@@ -12,16 +12,6 @@ const CocktailList = () => {
     const [filters, setFilters] = useAtom(currentFiltersAtom);
     const getCurrentParam = useGetSearchParams()
 
-    // const searchParamaters = useSearchParams();
-    // const router = useRouter();
-
-
-    // useEffect(() => {
-    //     const newQueryParams = new URLSearchParams(searchParamaters.toString());
-    //     newQueryParams.set('page','1')
-    //     router.push(`?${newQueryParams.toString()}`);
-    // }, [filters, router, searchParamaters]);
-
 
     const buildQueryParams = () => {
         const queryParams = new URLSearchParams();
@@ -30,6 +20,7 @@ const CocktailList = () => {
         if (filters.sort) queryParams.append("sort", filters.sort);
         // if (filters.alcoholic !== null) queryParams.append("alcoholic", filters.alcoholic ? 'true' : 'false')
         if (filters.name) queryParams.append("name", filters.name);
+        // queryParams.append("name", 'Brandy Alexander');
         if (filters.instructions) queryParams.append("instructions", filters.instructions);
         // queryParams.append('page', currentPage.toString())
         queryParams.append('page', getCurrentParam('page')?.toString() || '1')
@@ -55,7 +46,6 @@ const CocktailList = () => {
 
     return (
         <div>
-            {/*<Link href={Page}>button</Link>*/}
             <div className={'grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:px-16 md:px-24'}>
                 {data && data.data.map((cocktail: Cocktail) => (
                     <CocktailCard id={cocktail.id}
