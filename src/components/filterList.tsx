@@ -3,54 +3,48 @@ import {currentFiltersAtom} from "@/lib/FiltersAtom";
 import {useAtom} from "jotai";
 import {DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,} from "@/components/ui/dropdown-menu";
 import React, {useEffect, useState} from "react";
-import {FetchWithLocalStorage} from "@/lib/api";
+import {useFetch} from "@/lib/api";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Skeleton} from "@/components/ui/skeleton";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Button} from "@/components/ui/button";
 import {RESET} from 'jotai/utils'
+import {useSetSearchParams} from "@/lib/searchParamsManager";
 
 const FilterList = () => {
 
     const [currentFilters, setCurrentFilters] = useAtom(currentFiltersAtom);
-    const [categories, setCategories] = useState<string[]>([])
-    const [glassesTypes, setGlassesTypes] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const setParam = useSetSearchParams()
 
-    const {storedData: localCategories,
+    const {
         data: fetchedCategories,
         isPending: isPendingCategories,
         error: errorCategories,
-    } = FetchWithLocalStorage('categories', 'categoriesKey', undefined, 'cocktails/categories')
+    } = useFetch('categories', undefined, 'cocktails/categories')
 
-    // console.log('IIIIIII',isPendingCategories)
 
-    const {storedData: localGlasses,
+    const {
         data: fetchedGlasses,
         isPending: isPendingGlasses,
-        error: errorGlasses} = FetchWithLocalStorage('glasses', 'glassesKey', undefined, 'cocktails/glasses')
-
-    // console.log(localGlasses, fetchedGlasses, isPendingGlasses, errorGlasses)
-
-    useEffect(() => {
-        if (fetchedCategories) setCategories(fetchedCategories.data);
-        else if (localCategories) setCategories(localCategories);
-    },[fetchedCategories, localCategories])
+        error: errorGlasses
+    } = useFetch('glasses', undefined, 'cocktails/glasses')
 
     useEffect(() => {
-        if (fetchedGlasses) setGlassesTypes(fetchedGlasses.data);
-        else if (localGlasses) setGlassesTypes(localGlasses);
-    },[fetchedGlasses, localGlasses])
-
-    useEffect(() => {
-        if (!isPendingCategories && !isPendingGlasses && categories && glassesTypes) setIsLoading(false);
-    }, [isPendingGlasses, isPendingCategories, categories, glassesTypes]);
+        if (!isPendingCategories && !isPendingGlasses) setIsLoading(false);
+    }, [isPendingGlasses, isPendingCategories]);
 
     const handleCheckboxChange = (type: keyof typeof currentFilters, value: string | boolean) => {
+            setParam('page','1')
         setCurrentFilters((prev) => ({
             ...prev,
             [type]: prev[type] === value ? null : value,
         }))
+    }
+
+    const handleReset = () => {
+        setParam('page','1')
+        setCurrentFilters((RESET))
     }
 
     if (errorCategories || errorGlasses) {
@@ -59,7 +53,6 @@ const FilterList = () => {
     )}
 
     if (isLoading){
-        console.log("TRUE")
         return (
             <div>
                 <div className="flex flex-col space-y-3">
@@ -115,15 +108,16 @@ const FilterList = () => {
 
     return (
         <div className="flex-col flex">
-            <FilterItem label={"Categories"} list={categories} ItemKey={'category'}/>
-            <FilterItem label={"Glass types"} list={glassesTypes} ItemKey={'glass'}/>
+            <FilterItem label={"Categories"} list={fetchedCategories.data} ItemKey={'category'}/>
+            <FilterItem label={"Glass types"} list={fetchedGlasses.data} ItemKey={'glass'}/>
             <DropdownMenuItem>
-                <Button className={"bg-background pt-3 w-full"} onClick={() => setCurrentFilters((RESET))}>Reset</Button>
+                <Button className={"bg-background pt-3 w-full"} onClick={() => handleReset()}>Reset</Button>
             </DropdownMenuItem>
         </div>
     )
 
 }
+
 
 
 

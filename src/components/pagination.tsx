@@ -21,9 +21,7 @@ export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,las
             <PaginationContent>
                 {previousPageUrl && (
                 <PaginationItem>
-                    {/*<Link href={previousPageUrl} >*/}
                         <PaginationPrevious href={previousPageUrl} />
-                    {/*</Link>*/}
                 </PaginationItem>)}
                 {firstPage !== currentPage && (
                 <PaginationItem>
@@ -41,11 +39,11 @@ export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,las
                 </PaginationItem>
                 {nextPageUrl && (
                 <PaginationItem>
-                    {/*<Link href={nextPageUrl} >*/}
                         <PaginationNext href={nextPageUrl} />
-                    {/*</Link>*/}
                 </PaginationItem>)}
             </PaginationContent>
         </Pagination>
     )
 }
+
+

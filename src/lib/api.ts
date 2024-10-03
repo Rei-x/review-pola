@@ -14,53 +14,6 @@ export const fetchSomeData = async (endpoint: string, queryParams?: URLSearchPar
 
 }
 
-export const FetchWithLocalStorage = <T>(
-    queryKey: string,
-    localStorageKey: string,
-    fetchFunction?: () => Promise<T>,
-    endpoint?: string,
-) => {
-
-    const fetch = fetchFunction || (endpoint ? () => fetchSomeData(endpoint) : undefined)
-
-    if (fetch === undefined) {
-        console.error('The fetch function was not defined')
-        return {
-            storedData: null,
-            data: null,
-            isPending: null,
-            error: null
-        }
-    }
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {isPending, error, data} = useQuery({
-        queryKey: [queryKey],
-        queryFn: fetch,
-        staleTime: Infinity,
-        // cacheTime: Infinity,
-    })
-
-    if (data) {
-        if (typeof window !== 'undefined') {
-            window.localStorage.setItem(localStorageKey, JSON.stringify(data.data))
-        }
-    }
-
-    const storedData = () => typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem(localStorageKey) || 'null') : null
-    if (error) console.error(error)
-
-
-    return {
-        storedData,
-        data,
-        isPending,
-        error,
-        // isLoading,
-    }
-
-}
-
 
 export const useFetch = <T>(
     queryKey: string,

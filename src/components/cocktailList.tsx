@@ -14,7 +14,7 @@ const CocktailList = () => {
     const [filters, setFilters] = useAtom(currentFiltersAtom);
 
     const searchParamaters = useSearchParams();
-    const router = useRouter();
+    // const router = useRouter();
 
 
     // useEffect(() => {
