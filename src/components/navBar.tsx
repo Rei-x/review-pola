@@ -13,7 +13,7 @@ const NavBar = () => {
     const setParams = useSetSearchParams();
     const isCurrentParam = useIsSearchParams();
     const getCurrentParam = useGetSearchParams()
-    const [currentFilters, setCurrentFilters] = useAtom(currentFiltersAtom);
+    const [, setCurrentFilters] = useAtom(currentFiltersAtom);
     const [searchValue, setSearchValue] = useState("");
 
     const isCurrent = (paramName: string, value: string) => isCurrentParam(paramName, value);
@@ -46,7 +46,7 @@ const NavBar = () => {
         {paramName: 'category', label: 'Alcoholic', value: 'alcoholic', onClick: updateCategory, isCurrent: isCurrent, customStyle: 'underline'},
         {paramName: 'category', label: 'Non-Alcoholic', value: 'non-alcoholic', onClick: updateCategory, isCurrent: isCurrent, customStyle: 'underline'},
     ]
-    
+
     type InputProps = {
         className: string
     }
@@ -68,6 +68,7 @@ const NavBar = () => {
                 <Image src={'/img/cocktail.svg'} alt="Coctail" width={100} height={50} className={'lg:w-36'} />
                 <Longbar options={options}/>
                 <InputItem className={'hidden sm:block w-full min-w-36'}/>
+                <SideBar options={options}/>
             </div>
             <div className={'mx-4 mb-16 sm:hidden'}>
                 <InputItem className={'inline-block flex-grow'}/>
