@@ -16,6 +16,7 @@ const Option = ({isCurrent,  onClick, children, pathname, category}: IOption) =>
         event.preventDefault();
         onClick(category);
     }
+    //
     return (
         <Link href={pathname} passHref>
             <Button

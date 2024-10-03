@@ -21,27 +21,27 @@ const FilterList = () => {
     const {storedData: localCategories,
         data: fetchedCategories,
         isPending: isPendingCategories,
-        error: errorCategories} = FetchWithLocalStorage('categories', 'categoriesKey', undefined, 'cocktails/categories')
+        error: errorCategories,
+    } = FetchWithLocalStorage('categories', 'categoriesKey', undefined, 'cocktails/categories')
 
-    console.log('IIIIIII',isPendingCategories)
+    // console.log('IIIIIII',isPendingCategories)
 
     const {storedData: localGlasses,
         data: fetchedGlasses,
         isPending: isPendingGlasses,
         error: errorGlasses} = FetchWithLocalStorage('glasses', 'glassesKey', undefined, 'cocktails/glasses')
 
-    console.log(localGlasses, fetchedGlasses, isPendingGlasses, errorGlasses)
+    // console.log(localGlasses, fetchedGlasses, isPendingGlasses, errorGlasses)
 
     useEffect(() => {
-        console.log('CATEGORIES')
         if (fetchedCategories) setCategories(fetchedCategories.data);
         else if (localCategories) setCategories(localCategories);
-    },[localCategories, fetchedCategories, categories])
+    },[fetchedCategories, localCategories])
 
     useEffect(() => {
         if (fetchedGlasses) setGlassesTypes(fetchedGlasses.data);
         else if (localGlasses) setGlassesTypes(localGlasses);
-    },[localGlasses, fetchedGlasses, glassesTypes])
+    },[fetchedGlasses, localGlasses])
 
     useEffect(() => {
         if (!isPendingCategories && !isPendingGlasses && categories && glassesTypes) setIsLoading(false);
@@ -112,7 +112,7 @@ const FilterList = () => {
         )
     }
 
-    console.log('QQQQQQ',currentFilters)
+    // console.log('QQQQQQ',currentFilters)
 
 
     return (

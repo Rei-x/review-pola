@@ -21,3 +21,5 @@ const defaultFilters: Filters = {
 export const currentFiltersAtom = atom<Filters>(defaultFilters)
 
 export const resetFilters = atom(null, (get, set) => set(currentFiltersAtom, defaultFilters));
+
+export const currentPageAtom = atom<number>(1)

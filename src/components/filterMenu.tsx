@@ -1,10 +1,7 @@
-import {currentFiltersAtom} from "@/lib/FiltersAtom";
-import {useAtom} from "jotai";
 import {MixerHorizontalIcon} from "@radix-ui/react-icons";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
-import React, {useState} from "react";
-import {FetchWithLocalStorage} from "@/lib/api";
+import React from "react";
 import FilterList from "@/components/filterList";
 
 const FilterMenu = () => {

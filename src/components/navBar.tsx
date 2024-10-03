@@ -1,17 +1,11 @@
 "use client"
 import Image from 'next/image'
 import Longbar from "@/components/longbar";
-import {FetchWithLocalStorage} from "@/lib/api";
 import {currentTagAtom} from "@/lib/currentTagAtom";
 import {useAtom} from "jotai";
 import {Input} from "@/components/ui/input";
-import React, {useState} from "react";
 import SideBar from "@/components/sideBar";
 
-// interface NavBarProps {
-//     onSearch: (query: string) => void
-//     onFilter: (query: string) => void
-// }
 
 const options = [
     {category: 'home', label: 'Home', pathname: '/'},
