@@ -67,10 +67,8 @@ const FilterList = () => {
 
     }
 
-
     function isChecked<T>(key: keyof typeof currentFilters, value: T): boolean {
         return currentFilters[key] === value;
-
     }
 
     type FilterItemProps = {
