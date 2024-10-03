@@ -33,9 +33,6 @@ export const useFetch = <T>(
             error: null
         }
     }
-    console.log('QQQQQ')
-
-
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {isPending, error, data} = useQuery({

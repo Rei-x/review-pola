@@ -10,12 +10,10 @@ import {HamburgerMenuIcon} from "@radix-ui/react-icons";
 
 
 interface ISideBar {
-    isCurrent: (category: string) => boolean;
     options: IOption[];
-    onClick: (category: string) => void;
 }
 
-const SideBar = ({isCurrent, options, onClick}: ISideBar) => {
+const SideBar = ({options}: ISideBar) => {
     return (
         <div className={'md:hidden'}>
             <DropdownMenu>
@@ -30,9 +28,9 @@ const SideBar = ({isCurrent, options, onClick}: ISideBar) => {
                 <DropdownMenuContent>
                     <div className="flex-col">
                         {options.map((option) => (
-                            <React.Fragment key={option.category}><DropdownMenuItem>
-                                <Option isCurrent={isCurrent} onClick={onClick} pathname={option.pathname}
-                                        category={option.category}>
+                            <React.Fragment key={option.value}><DropdownMenuItem>
+                                <Option isCurrent={option.isCurrent} onClick={option.onClick} paramName={option.paramName}
+                                        value={option.value} style={option.customStyle}>
                                     {option.label}
                                 </Option></DropdownMenuItem>
                             </React.Fragment>

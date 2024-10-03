@@ -35,7 +35,7 @@ const FilterList = () => {
     }, [isPendingGlasses, isPendingCategories]);
 
     const handleCheckboxChange = (type: keyof typeof currentFilters, value: string | boolean) => {
-            setParam('page','1')
+            setParam({page: '1'})
         setCurrentFilters((prev) => ({
             ...prev,
             [type]: prev[type] === value ? null : value,
@@ -43,7 +43,7 @@ const FilterList = () => {
     }
 
     const handleReset = () => {
-        setParam('page','1')
+        setParam({page: '1'})
         setCurrentFilters((RESET))
     }
 

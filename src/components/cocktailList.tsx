@@ -4,16 +4,15 @@ import {useFetch} from "@/lib/api";
 import {PaginationDemo} from "./pagination";
 import {Cocktail} from "@/lib/ProductListTypes";
 import CocktailCard from "@/components/cocktailCard";
-import {useEffect} from "react";
-// import {useRouter} from "next/router";
-import {useRouter, usePathname, useSearchParams} from "next/navigation";
+import {useGetSearchParams} from "@/lib/searchParamsManager";
 
 
 const CocktailList = () => {
 
     const [filters, setFilters] = useAtom(currentFiltersAtom);
+    const getCurrentParam = useGetSearchParams()
 
-    const searchParamaters = useSearchParams();
+    // const searchParamaters = useSearchParams();
     // const router = useRouter();
 
 
@@ -29,11 +28,14 @@ const CocktailList = () => {
         if (filters.category ) queryParams.append("category", filters.category);
         if (filters.glass) queryParams.append("glass", filters.glass);
         if (filters.sort) queryParams.append("sort", filters.sort);
-        if (filters.alcoholic !== null) queryParams.append("alcoholic", filters.alcoholic ? 'true' : 'false')
+        // if (filters.alcoholic !== null) queryParams.append("alcoholic", filters.alcoholic ? 'true' : 'false')
         if (filters.name) queryParams.append("name", filters.name);
         if (filters.instructions) queryParams.append("instructions", filters.instructions);
         // queryParams.append('page', currentPage.toString())
-        queryParams.append('page', searchParamaters.get('page')?.toString() || '1')
+        queryParams.append('page', getCurrentParam('page')?.toString() || '1')
+        const category = getCurrentParam('category')?.toString() || 'home'
+        const alcoholic = category!=='home' ? (category==='alcoholic' ? 'true' : 'false') : null
+        if (alcoholic) queryParams.append("alcoholic", alcoholic)
         return queryParams;
     }
 
@@ -45,6 +47,8 @@ const CocktailList = () => {
     if (isPending) return <div>Loading...</div>;
 
     if (error) throw error;
+
+    if (data.data.length === 0) return <div className={'items-center justify-center flex'}>No results.</div>;
 
     const {currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,perPage,previousPageUrl,total} = data.meta
 

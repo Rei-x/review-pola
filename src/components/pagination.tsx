@@ -7,7 +7,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import {usePathname} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 
 interface Pagination {
     currentPage: string, firstPage: string,firstPageUrl: string,lastPage:string,lastPageUrl:string,nextPageUrl:string,perPage:string,previousPageUrl:string, total:string
@@ -15,31 +15,40 @@ interface Pagination {
 
 export function PaginationDemo({currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,perPage,previousPageUrl, total}:Pagination) {
     const path = usePathname()
-    console.log(previousPageUrl)
+    const searchParams = useSearchParams();
+
+    const getPath = (newPage: string) => {
+        const currentQueryParams = new URLSearchParams(searchParams.toString());
+        currentQueryParams.set('page', newPage.replace('/?page=',''));
+        return `${window.location.pathname}?${currentQueryParams.toString()}`;
+    };
+
+    console.log(nextPageUrl)
+
     return (
         <Pagination>
             <PaginationContent>
                 {previousPageUrl && (
                 <PaginationItem>
-                        <PaginationPrevious href={previousPageUrl} />
+                        <PaginationPrevious href={getPath(previousPageUrl)} />
                 </PaginationItem>)}
                 {firstPage !== currentPage && (
                 <PaginationItem>
-                    <PaginationLink href={firstPageUrl}>1</PaginationLink>
+                    <PaginationLink href={getPath(firstPageUrl)}>1</PaginationLink>
                 </PaginationItem>)}
                 <PaginationItem>
                     <PaginationLink href={path} isActive>{currentPage}</PaginationLink>
                 </PaginationItem>
                 {lastPage!== currentPage && (
                 <PaginationItem>
-                    <PaginationLink href={lastPageUrl}>{lastPage}</PaginationLink>
+                    <PaginationLink href={getPath(lastPageUrl)}>{lastPage}</PaginationLink>
                 </PaginationItem>)}
                 <PaginationItem>
                     <PaginationEllipsis />
                 </PaginationItem>
                 {nextPageUrl && (
                 <PaginationItem>
-                        <PaginationNext href={nextPageUrl} />
+                        <PaginationNext href={getPath(nextPageUrl)} />
                 </PaginationItem>)}
             </PaginationContent>
         </Pagination>

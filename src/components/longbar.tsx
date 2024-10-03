@@ -4,24 +4,25 @@ import React from "react";
 
 
 export interface IOption {
-    category: string;
+    paramName: string;
     label: string;
-    pathname: string;
+    value: string;
+    onClick: (paramName?: string, value?: string) => void;
+    isCurrent: (paramName: string, value: string) => boolean;
+    customStyle: string;
 }
 
 interface IlongBar {
-    isCurrent: (category: string) => boolean;
     options: IOption[];
-    onClick: (category: string) => void;
 }
 
 
-const Longbar = ({isCurrent, options, onClick}: IlongBar) => {
+const Longbar = ({options}: IlongBar) => {
     return (
         <div className="hidden md:flex items-center">
             {options.map((option, index) => (
-                <React.Fragment key={option.category}>
-                    <Option isCurrent={isCurrent} onClick={onClick} pathname={option.pathname} category={option.category}>
+                <React.Fragment key={option.value}>
+                    <Option isCurrent={option.isCurrent} onClick={option.onClick} paramName={option.paramName} value={option.value} style={option.customStyle}>
                         {option.label}
                     </Option>
                     {index !== options.length - 1 && (

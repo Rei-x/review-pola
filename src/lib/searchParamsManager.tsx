@@ -5,13 +5,32 @@ export const useSetSearchParams = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const updateCurrentParams = (paramName: string, value: string) => {
+    return (params: Record<string, string>) => {
         const currentQueryParams = new URLSearchParams(searchParams.toString());
-        if (value === '') currentQueryParams.delete(paramName, value);
-        else currentQueryParams.set(paramName,value);
+
+        Object.entries(params).forEach(([paramName, value]) => {
+            if (value === '') currentQueryParams.delete(paramName, value);
+            else currentQueryParams.set(paramName, value);
+
+
+        })
         const newURL = `${window.location.pathname}?${currentQueryParams.toString()}`;
         router.push(newURL);
-    }
+    };
+}
 
-    return updateCurrentParams;
+export const useGetSearchParams = () => {
+    const searchParams = useSearchParams();
+
+    return (paramName: string) => {
+        return searchParams.get(paramName)?.toString() || null
+    }
+}
+
+export const useIsSearchParams = () => {
+    const searchParams = useSearchParams();
+    return (paramName: string, value: string) => {
+        const currentValue = searchParams.get(paramName)?.toString() || 'home'
+        return currentValue === value;
+    };
 }
