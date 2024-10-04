@@ -14,7 +14,7 @@ export const useSetSearchParams = () => {
 
 
         })
-        const newURL = `${window.location.pathname}?${currentQueryParams.toString()}`;
+        const newURL = `/?${currentQueryParams.toString()}`;
         router.push(newURL);
     };
 }
