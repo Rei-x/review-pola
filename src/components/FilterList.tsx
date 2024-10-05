@@ -10,11 +10,12 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {Button} from "@/components/ui/button";
 import {RESET} from 'jotai/utils'
 import {useSetSearchParams} from "@/lib/searchParamsManager";
+import {Ingredient} from "@/lib/types";
 
 const FilterList = () => {
 
     const [currentFilters, setCurrentFilters] = useAtom(currentFiltersAtom);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [selectedType, setSelectedType] = useState<string | null>(null);
     const setParam = useSetSearchParams()
 
     const {
@@ -30,11 +31,53 @@ const FilterList = () => {
         error: errorGlasses
     } = useFetch('glasses', undefined, 'cocktails/glasses')
 
-    useEffect(() => {
-        if (!isPendingCategories && !isPendingGlasses) setIsLoading(false);
-    }, [isPendingGlasses, isPendingCategories]);
+    const {
+        data: fetchedIngredients,
+        isPending: isPendingIngredients,
+        error: errorIngredients,
+    } = useFetch('ingredients', undefined, 'ingredients/types')
 
-    const handleCheckboxChange = (type: keyof typeof currentFilters, value: string | boolean) => {
+    const queryParams = new URLSearchParams();
+    if (currentFilters.ingredientsType) queryParams.append('type', currentFilters.ingredientsType);
+
+    const {
+        data: fetchedIds,
+        isPending: isPendingIds,
+        error: errorIds,
+    } = useFetch('ingredientIds', undefined, 'ingredients', queryParams)
+
+    const handleReset = () => {
+        setParam({page: '1'}, '/')
+        setCurrentFilters((RESET))
+    }
+
+
+    // useEffect(() => {
+    //     if (!isPendingCategories && !isPendingGlasses && !isPendingIngredients && !isPendingIds) setIsLoading(false);
+    // }, [isPendingGlasses, isPendingCategories, isPendingIngredients, isPendingIds]);
+
+    useEffect(() => {
+        if (fetchedIds){
+            if (fetchedIds.data && fetchedIds.data.length > 0){
+                setParam({page: '1'}, '/')
+                const ids = fetchedIds.data.map((obj: Ingredient) => obj.id)
+
+                setCurrentFilters((prev) => ({
+                    ...prev,
+                    ['ingredients']: prev['ingredients'] === ids ? null : ids,
+                }))
+            }
+    }}, [fetchedIds, selectedType, currentFilters.ingredientsType]);
+
+    if (errorCategories || errorGlasses || errorIngredients || errorIds) {
+        handleReset()
+        return (
+            <div>Something went wrong</div>
+        )
+    }
+
+
+    const handleCheckboxChange = (type: keyof typeof currentFilters, value: string) => {
             setParam({page: '1'}, '/')
         setCurrentFilters((prev) => ({
             ...prev,
@@ -42,17 +85,20 @@ const FilterList = () => {
         }))
     }
 
-    const handleReset = () => {
+    const handleIngredientTypeChange = (type: keyof typeof currentFilters, value: string) => {
         setParam({page: '1'}, '/')
-        setCurrentFilters((RESET))
+        setCurrentFilters((prev) => ({
+            ...prev,
+            [type]: prev[type] === value ? null : value,
+        }))
+        setSelectedType(value)
     }
 
-    if (errorCategories || errorGlasses) {
-        return (
-        <div>Something went wrong</div>
-    )}
 
-    if (isLoading){
+    console.log(fetchedIds)
+
+
+    if (isPendingIds || isPendingCategories || isPendingGlasses || isPendingIngredients){
         return (
             <div>
                 <div className="flex flex-col space-y-3">
@@ -75,10 +121,11 @@ const FilterList = () => {
         label: string;
         list: string[];
         ItemKey: keyof typeof currentFilters
+        handleCheckboxChange: (ItemKey: keyof typeof currentFilters, value: string) => void;
     }
 
 
-    const FilterItem: React.FC<FilterItemProps> = ({label,list,ItemKey}) => {
+    const FilterItem: React.FC<FilterItemProps> = ({label,list,ItemKey, handleCheckboxChange}) => {
         return (
             <div>
                 <DropdownMenuLabel>{label}</DropdownMenuLabel>
@@ -90,7 +137,7 @@ const FilterList = () => {
                         <DropdownMenuItem key={value}>
                             <div className="flex space-x-2">
                                 <Checkbox id={uniqueId} checked={isChecked(ItemKey, value)}
-                                          onCheckedChange={() => handleCheckboxChange(ItemKey, value)}/>
+                                          onCheckedChange={() => handleCheckboxChange(ItemKey, value.toString())}/>
                                 <label
                                     htmlFor={uniqueId}
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -108,8 +155,9 @@ const FilterList = () => {
 
     return (
         <div className="flex-col flex">
-            <FilterItem label={"Categories"} list={fetchedCategories.data} ItemKey={'category'}/>
-            <FilterItem label={"Glass types"} list={fetchedGlasses.data} ItemKey={'glass'}/>
+            <FilterItem label={"Categories"} list={fetchedCategories.data} ItemKey={'category'} handleCheckboxChange={handleCheckboxChange}/>
+            <FilterItem label={"Glass types"} list={fetchedGlasses.data} ItemKey={'glass'} handleCheckboxChange={handleCheckboxChange}/>
+            <FilterItem label={"Ingredients"} list={fetchedIngredients.data} ItemKey={'ingredientsType'} handleCheckboxChange={handleIngredientTypeChange}/>
             <DropdownMenuItem>
                 <Button className={"bg-background pt-3 w-full"} onClick={() => handleReset()}>Reset</Button>
             </DropdownMenuItem>
