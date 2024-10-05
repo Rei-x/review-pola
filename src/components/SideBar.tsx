@@ -1,10 +1,10 @@
-import {IOption} from "@/components/longbar";
+import {IOption} from "@/components/LongBar";
 import {
     DropdownMenu, DropdownMenuContent,
     DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import React from "react";
-import Option from "@/components/option";
+import Option from "@/components/Option";
 import {Button} from "@/components/ui/button";
 import {HamburgerMenuIcon} from "@radix-ui/react-icons";
 

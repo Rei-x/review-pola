@@ -1,19 +1,19 @@
-import {currentFiltersAtom} from "@/lib/FiltersAtom";
+import {currentFiltersAtom} from "@/atoms/filtersAtom";
 import {useAtom} from "jotai/index";
-import {useFetch} from "@/lib/api";
-import {PaginationDemo} from "./pagination";
-import {Cocktail} from "@/lib/ProductListTypes";
-import CocktailCard from "@/components/cocktailCard";
+import {useFetch} from "@/lib/useFetch";
+import {PaginationDemo} from "./Pagination";
+import {Cocktail} from "@/lib/types";
+import CocktailCard from "@/components/CocktailCard";
 import {useGetSearchParams} from "@/lib/searchParamsManager";
-import {favouritesAtom} from "@/lib/favouritesAtom";
-import {searchAtom} from "@/lib/SearchAtom";
+import {favouritesAtom} from "@/atoms/favouritesAtom";
+import {searchAtom} from "@/atoms/searchAtom";
 
 
 const CocktailList = () => {
 
-    const [filters, setFilters] = useAtom(currentFiltersAtom);
+    const [filters] = useAtom(currentFiltersAtom);
     const getCurrentParam = useGetSearchParams()
-    const [favourites, setFavourites] = useAtom(favouritesAtom);
+    const [favourites] = useAtom(favouritesAtom);
     const [searchQuery,] = useAtom(searchAtom);
 
 
@@ -22,15 +22,14 @@ const CocktailList = () => {
         if (filters.category ) queryParams.append("category", filters.category);
         if (filters.glass) queryParams.append("glass", filters.glass);
         if (filters.sort) queryParams.append("sort", filters.sort);
-        // if (filters.name) queryParams.append("name", filters.name);
         if (searchQuery !== '') queryParams.append("name", searchQuery)
-        if (filters.instructions) queryParams.append("instructions", filters.instructions);
         queryParams.append('page', getCurrentParam('page')?.toString() || '1')
         const category = getCurrentParam('category')?.toString() || 'home'
         const alcoholic = category!=='home' ? (category==='alcoholic' ? 'true' : 'false') : null
         if (alcoholic) queryParams.append("alcoholic", alcoholic)
         const isFavouritesQuery = getCurrentParam('favourites')?.toString() || 'false';
         if (isFavouritesQuery !== 'false') {
+            // if (favourites.length===0) queryParams.append('id[]',[])
             favourites.forEach((id) => {
                 queryParams.append('id[]', id)
             })

@@ -1,9 +1,11 @@
 'use client'
 import {StarIcon, StarFilledIcon} from "@radix-ui/react-icons";
-import {Cocktail} from "@/lib/ProductListTypes";
+import {Cocktail} from "@/lib/types";
 import Image from "next/image";
-import {favouritesAtom} from "@/lib/favouritesAtom";
+import {favouritesAtom} from "@/atoms/favouritesAtom";
 import {useAtom} from "jotai";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 const CocktailCard = (cocktail: Cocktail, children: string) => {
     const [favourites, setFavourites] = useAtom(favouritesAtom);
@@ -29,6 +31,7 @@ const CocktailCard = (cocktail: Cocktail, children: string) => {
         <h3 className={'text-lg font-bold mb-2'}>{cocktail.name}</h3>
         <p className={'text-sm text-gray-800 mb-4'}>{cocktail.category}</p>
         <Image alt={'cocktailPhoto'} src={cocktail.imageUrl} width={200} height={300} className={'rounded:mb object-cover'}/>
+        <Link href={`/cocktail/${cocktail.id}`}>details</Link>
     </div>)
 }
 

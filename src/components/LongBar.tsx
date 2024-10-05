@@ -1,5 +1,5 @@
 // import Link from "next/link";
-import Option from "@/components/option";
+import Option from "@/components/Option";
 import React from "react";
 
 
@@ -17,7 +17,7 @@ interface IlongBar {
 }
 
 
-const Longbar = ({options}: IlongBar) => {
+const LongBar = ({options}: IlongBar) => {
     return (
         <div className="hidden md:flex items-center">
             {options.map((option, index) => (
@@ -34,4 +34,4 @@ const Longbar = ({options}: IlongBar) => {
             )
 }
 
-export default Longbar;
+export default LongBar;

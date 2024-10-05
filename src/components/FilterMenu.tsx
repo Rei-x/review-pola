@@ -2,7 +2,7 @@ import {MixerHorizontalIcon} from "@radix-ui/react-icons";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import React from "react";
-import FilterList from "@/components/filterList";
+import FilterList from "@/components/FilterList";
 
 const FilterMenu = () => {
     return (

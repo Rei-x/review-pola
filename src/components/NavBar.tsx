@@ -1,10 +1,10 @@
 "use client"
 import Image from 'next/image'
-import Longbar from "@/components/longbar";
-import SideBar from "@/components/sideBar";
+import LongBar from "@/components/LongBar";
+import SideBar from "@/components/SideBar";
 import {useSetSearchParams, useGetSearchParams, useIsSearchParams} from "@/lib/searchParamsManager";
 import React from "react";
-import SearchInput from "@/components/searchInput";
+import SearchInput from "@/components/SearchInput";
 
 
 const NavBar = () => {
@@ -14,15 +14,14 @@ const NavBar = () => {
 
     const isCurrent = (paramName: string, value: string) => isCurrentParam(paramName, value);
 
-
     const updateCategory = (paramName?: string, value?: string) => {
         if (!paramName || !value) return;
-        setParams({page: '1',[paramName]: value});
+        setParams({page: '1',[paramName]: value}, '/');
     }
     const updateFavourites = () => {
         const curr = getCurrentParam('favourites');
-        if (curr && curr === 'true') setParams({page: '1',favourites: 'false'})
-        else setParams({page: '1',favourites: 'true'});
+        if (curr && curr === 'true') setParams({page: '1',favourites: 'false'}, '/')
+        else setParams({page: '1',favourites: 'true'}, '/');
     }
 
 
@@ -39,8 +38,7 @@ const NavBar = () => {
         <nav className="md:pe-8 md:pb-8 md:px-8 bg-background fixed-top sm:p-4 w-full sm:mr-4">
             <div className="p-4 flex w-full md:space-x-8 sm: space-x-3 items-center justify-between lg:px-16 lg:space-x-10">
                 <Image src={'/img/cocktail.svg'} alt="Coctail" width={100} height={50} className={'lg:w-36'} />
-                <Longbar options={options}/>
-                {/*<InputItem className={'hidden sm:block w-full min-w-36'}/>*/}
+                <LongBar options={options}/>
                 <SearchInput className={'hidden sm:block w-full min-w-36'}/>
                 <SideBar options={options}/>
             </div>

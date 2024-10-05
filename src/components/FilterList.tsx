@@ -1,9 +1,9 @@
 "use client"
-import {currentFiltersAtom} from "@/lib/FiltersAtom";
+import {currentFiltersAtom} from "@/atoms/filtersAtom";
 import {useAtom} from "jotai";
 import {DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,} from "@/components/ui/dropdown-menu";
 import React, {useEffect, useState} from "react";
-import {useFetch} from "@/lib/api";
+import {useFetch} from "@/lib/useFetch";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Skeleton} from "@/components/ui/skeleton";
 import {ScrollArea} from "@/components/ui/scroll-area";
@@ -35,7 +35,7 @@ const FilterList = () => {
     }, [isPendingGlasses, isPendingCategories]);
 
     const handleCheckboxChange = (type: keyof typeof currentFilters, value: string | boolean) => {
-            setParam({page: '1'})
+            setParam({page: '1'}, '/')
         setCurrentFilters((prev) => ({
             ...prev,
             [type]: prev[type] === value ? null : value,
@@ -43,7 +43,7 @@ const FilterList = () => {
     }
 
     const handleReset = () => {
-        setParam({page: '1'})
+        setParam({page: '1'}, '/')
         setCurrentFilters((RESET))
     }
 
@@ -84,20 +84,22 @@ const FilterList = () => {
                 <DropdownMenuLabel>{label}</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
                 <ScrollArea className={'h-16'}>
-                    {list.map((value: string) =>
+                    {list.map((value: string) => {
+                        const uniqueId = `${ItemKey}-${value}`
+                        return (
                         <DropdownMenuItem key={value}>
                             <div className="flex space-x-2">
-                                <Checkbox id={label} checked={isChecked(ItemKey,value)}
-                                          onCheckedChange={() => handleCheckboxChange(ItemKey, value)} />
+                                <Checkbox id={uniqueId} checked={isChecked(ItemKey, value)}
+                                          onCheckedChange={() => handleCheckboxChange(ItemKey, value)}/>
                                 <label
-                                    htmlFor="terms"
+                                    htmlFor={uniqueId}
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                 >
                                     {value}
                                 </label>
                             </div>
                         </DropdownMenuItem>
-                    )}</ScrollArea>
+                        )})}</ScrollArea>
             </div>
         )
     }

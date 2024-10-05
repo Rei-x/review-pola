@@ -1,6 +1,6 @@
 "use client"
-import FilterMenu from "@/components/filterMenu";
-import CocktailList from "@/components/cocktailList";
+import FilterMenu from "@/components/FilterMenu";
+import CocktailList from "@/components/CocktailList";
 
 
 

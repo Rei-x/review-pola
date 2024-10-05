@@ -5,16 +5,16 @@ export const useSetSearchParams = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    return (params: Record<string, string>) => {
+    return (params: Record<string, string>, site? : string) => {
         const currentQueryParams = new URLSearchParams(searchParams.toString());
+        const path = site ? site : window.location.pathname;
 
         Object.entries(params).forEach(([paramName, value]) => {
             if (value === '') currentQueryParams.delete(paramName, value);
             else currentQueryParams.set(paramName, value);
-
-
         })
-        const newURL = `/?${currentQueryParams.toString()}`;
+
+        const newURL = `${path}?${currentQueryParams.toString()}`;
         router.push(newURL);
     };
 }
