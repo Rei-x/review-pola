@@ -1,5 +1,4 @@
-import {useGetSearchParams} from "@/lib/searchParamsManager";
-import {useParams, useRouter} from "next/navigation";
+import {useParams} from "next/navigation";
 import {useFetch} from "@/lib/useFetch";
 import Image from "next/image";
 import IngredientsList from "./IngredientsList";
@@ -17,7 +16,6 @@ const CocktailDetails = () => {
     if (error) {
         return <div>Something went wrong</div>
     }
-    console.log('QQQQ',data.data)
     // return <IngredientsList list={data.data.ingredients} />
     const imageUrl = data.data.imageUrl ? data.data.imageUrl : 'https://placeholder.pics/svg/400';
     const alcoholic = data.data.alcoholic ? 'Alcoholic' : 'Non-alcoholic';

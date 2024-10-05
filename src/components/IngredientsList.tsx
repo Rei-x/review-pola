@@ -9,7 +9,6 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import {Ingredient} from "@/lib/types";
-import Image from "next/image";
 
 function IngredientsList({list}: {list: Ingredient[]}) {
     return (

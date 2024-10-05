@@ -6,10 +6,12 @@ import {favouritesAtom} from "@/atoms/favouritesAtom";
 import {useAtom} from "jotai";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import React from "react";
 
-const CocktailCard = (cocktail: Cocktail, children: string) => {
+const CocktailCard = (cocktail: Cocktail) => {
     const [favourites, setFavourites] = useAtom(favouritesAtom);
     const isFavourite = favourites?.includes(cocktail.id)
+    const imageUrl = cocktail.imageUrl ? cocktail.imageUrl : 'https://placeholder.pics/svg/400';
     const toggle = () => {
         if (isFavourite) {
             setFavourites(favourites.filter((el) => el !== cocktail.id));
@@ -17,7 +19,7 @@ const CocktailCard = (cocktail: Cocktail, children: string) => {
         else setFavourites([...favourites, cocktail.id]);
     }
     return (
-    <div key={cocktail.id} className={'bg-white rounded-lg shadow-lg p-4 text-center items-center justify-center'}>
+    <div key={cocktail.id} className={'hover:bg-dun-400 rounded-lg bg-dun-700 p-4 items-center text-center justify-center'}>
         <div className={'flex justify-end'}>
             {isFavourite ? (
                 <StarFilledIcon
@@ -28,10 +30,14 @@ const CocktailCard = (cocktail: Cocktail, children: string) => {
             )}
         </div>
 
-        <h3 className={'text-lg font-bold mb-2'}>{cocktail.name}</h3>
+        <h3 className={'sm:text-lg font-bold mb-2'}>{cocktail.name}</h3>
         <p className={'text-sm text-gray-800 mb-4'}>{cocktail.category}</p>
-        <Image alt={'cocktailPhoto'} src={cocktail.imageUrl} width={200} height={300} className={'rounded:mb object-cover'}/>
-        <Link href={`/cocktail/${cocktail.id}`}>details</Link>
+        <div className={'flex justify-center'}>
+            <Image alt={'cocktailPhoto'} src={imageUrl} width={200} height={300} className={'flex rounded-3xl object-cover'}/>
+        </div>
+        <Link href={`/cocktail/${cocktail.id}`}>
+            <Button className={"bg-pakistan_green-200 mt-3 w-2/3 font-semibold"}>Details</Button>
+        </Link>
     </div>)
 }
 
