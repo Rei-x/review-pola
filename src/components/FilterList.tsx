@@ -52,10 +52,6 @@ const FilterList = () => {
     }
 
 
-    // useEffect(() => {
-    //     if (!isPendingCategories && !isPendingGlasses && !isPendingIngredients && !isPendingIds) setIsLoading(false);
-    // }, [isPendingGlasses, isPendingCategories, isPendingIngredients, isPendingIds]);
-
     useEffect(() => {
         if (fetchedIds){
             if (fetchedIds.data && fetchedIds.data.length > 0){

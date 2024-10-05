@@ -7,6 +7,7 @@ import CocktailCard from "@/components/CocktailCard";
 import {useGetSearchParams} from "@/lib/searchParamsManager";
 import {favouritesAtom} from "@/atoms/favouritesAtom";
 import {searchAtom} from "@/atoms/searchAtom";
+import {currentSortAtom} from "@/atoms/sortAtom";
 
 
 const CocktailList = () => {
@@ -15,6 +16,7 @@ const CocktailList = () => {
     const getCurrentParam = useGetSearchParams()
     const [favourites] = useAtom(favouritesAtom);
     const [searchQuery,] = useAtom(searchAtom);
+    const [sort,] = useAtom(currentSortAtom);
 
 
     const buildQueryParams = () => {
@@ -24,7 +26,9 @@ const CocktailList = () => {
 
         if (filters.category ) queryParams.append("category", filters.category);
         if (filters.glass) queryParams.append("glass", filters.glass);
-        if (filters.sort) queryParams.append("sort", filters.sort);
+        if (sort.sort) {
+            queryParams.append("sort", `${sort.order}${sort.sort}`);
+        }
         if (filters.ingredients && filters.ingredientsType) {
             filters.ingredients.forEach((ingredient) => {
                 queryParams.append("ingredientId", ingredient);

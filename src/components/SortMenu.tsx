@@ -1,16 +1,16 @@
-import {MixerHorizontalIcon} from "@radix-ui/react-icons";
+import {CaretSortIcon} from "@radix-ui/react-icons";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import React from "react";
-import FilterList from "@/components/FilterList";
+import SortList from "@/components/SortList";
 
-const FilterMenu = () => {
+const SortMenu = () => {
     const handleClick = (event: React.MouseEvent) => {
         event.preventDefault();
 
     }
     return (
-        <div className="fixed md: right-14 sm:right-10">
+        <div className="fixed right-16 sm:right-28">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -19,12 +19,12 @@ const FilterMenu = () => {
                         onClick={handleClick}
                     >
                         <div className={'flex items-center justify-center w-16 h-16 bg-foreground rounded-full'}>
-                            <MixerHorizontalIcon className={'h-6 w-6 text-background'}/>
+                            <CaretSortIcon className={'h-6 w-6 text-background'}/>
                         </div>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                        <FilterList />
+                    <SortList />
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
@@ -32,4 +32,4 @@ const FilterMenu = () => {
 
 }
 
-export default FilterMenu;
+export default SortMenu;
