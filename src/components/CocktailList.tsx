@@ -16,6 +16,19 @@ const CocktailList = () => {
     const [favourites] = useAtom(favouritesAtom);
     const [searchQuery,] = useAtom(searchAtom);
 
+    // if (filters.ingredients) {
+    //     const IngredientsParams = new URLSearchParams();
+    //     IngredientsParams.append('type', filters.ingredients)
+    //     const {
+    //         data: ingredients,
+    //         isPending: ingredientsPending,
+    //         error: ingredientsError
+    //     } = useFetch('ingredients', undefined, 'ingredients', IngredientsParams);
+    // }
+
+
+
+
 
     const buildQueryParams = () => {
         const queryParams = new URLSearchParams();
@@ -25,6 +38,10 @@ const CocktailList = () => {
         if (filters.category ) queryParams.append("category", filters.category);
         if (filters.glass) queryParams.append("glass", filters.glass);
         if (filters.sort) queryParams.append("sort", filters.sort);
+        if (filters.ingredients) {
+
+            queryParams.append("ingredientId", filters.ingredients);
+        }
 
         if (searchQuery !== '') queryParams.append("name", searchQuery)
 

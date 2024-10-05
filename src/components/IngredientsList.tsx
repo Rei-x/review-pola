@@ -20,7 +20,7 @@ function IngredientsList({list}: {list: Ingredient[]}) {
         >
             <CarouselContent className="flex">
                 {list.map((ingredient) => (
-                    <CarouselItem key={ingredient.id} className="flex-grow pl-0.1 basis-1/2 sm:basis-1/3 lg:basis-1/4 w-full max-w-md scroll-snap-start rounded-lg overflow-hidden shadow-lg mx-2 min-h-32">
+                    <CarouselItem key={ingredient.id} className="flex-grow pl-0.1 basis-1/2 sm:basis-1/3 lg:basis-1/4 w-full max-w-md scroll-snap-start rounded-lg overflow-hidden mx-2 min-h-32">
                         <div className="p-0.1">
                             <Card className={'bg-background'}>
                                 <CardContent className="flex-col aspect-square items-center justify-center p-1 space-y-1">

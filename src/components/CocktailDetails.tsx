@@ -59,7 +59,7 @@ const CocktailDetails = () => {
                 </div>
             </div>
             <Image alt={'cocktailPhoto'} src={imageUrl} width={100} height={100}
-                   className={'rounded-3xl object-cover w-full h-auto py-10'}/>
+                   className={'rounded-full object-cover w-full h-auto py-10'}/>
             <div className={'flex-col space-y-4 items-center'}>
 
                 <div className={'flex justify-center items-center'}>
