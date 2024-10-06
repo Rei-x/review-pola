@@ -10,7 +10,7 @@ const FilterMenu = () => {
 
     }
     return (
-        <div className="fixed md: right-14 sm:right-10">
+        <div className="fixed right-1 sm:right-10">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button

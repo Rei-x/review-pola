@@ -5,6 +5,7 @@ import SideBar from "@/components/SideBar";
 import {useSetSearchParams, useGetSearchParams, useIsSearchParams} from "@/lib/searchParamsManager";
 import React from "react";
 import SearchInput from "@/components/SearchInput";
+import Link from "next/link";
 
 
 const NavBar = () => {
@@ -37,7 +38,11 @@ const NavBar = () => {
     return (
         <nav className="md:pe-8 md:pb-8 md:px-8 bg-background fixed-top sm:p-4 w-full sm:mr-4">
             <div className="p-4 flex w-full md:space-x-8 sm: space-x-3 items-center justify-between lg:px-16 lg:space-x-10">
-                <Image src={'/img/cocktail.svg'} alt="Coctail" width={100} height={50} className={'lg:w-36'} />
+                <Link href="/" className={'flex items-center'}>
+                    <div className={'relative w-[120px] h-[60px] lg:w-[144px] lg:h-[72px]'}>
+                        <Image src={'/img/cocktail.svg'} alt="Coctail"  className={'lg:w-36'} layout={'fill'} objectFit={'contain'} />
+                    </div>
+                </Link>
                 <LongBar options={options}/>
                 <SearchInput className={'hidden sm:block w-full min-w-36'}/>
                 <SideBar options={options}/>

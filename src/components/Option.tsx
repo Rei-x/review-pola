@@ -24,7 +24,6 @@ const Option = ({isCurrent,  onClick, children, paramName, value, style}: IOptio
                 onClick={handleClick}>
                 {children}
             </Button>
-
     )
 }
 

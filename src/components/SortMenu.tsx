@@ -10,7 +10,7 @@ const SortMenu = () => {
 
     }
     return (
-        <div className="fixed right-16 sm:right-28">
+        <div className="fixed right-20 sm:right-28">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
