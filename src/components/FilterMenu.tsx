@@ -3,6 +3,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/componen
 import {Button} from "@/components/ui/button";
 import React from "react";
 import FilterList from "@/components/FilterList";
+import {Suspense} from "react";
 
 const FilterMenu = () => {
     const handleClick = (event: React.MouseEvent) => {
@@ -24,7 +25,9 @@ const FilterMenu = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
+                    <Suspense fallback={<div>Loading...</div>}>
                         <FilterList />
+                    </Suspense>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

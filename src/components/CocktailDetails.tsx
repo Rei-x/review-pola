@@ -7,6 +7,7 @@ import * as React from "react";
 import {Badge} from "@/components/ui/badge";
 import {Skeleton} from "@/components/ui/skeleton";
 
+
 const CocktailDetails = () => {
     const {cocktailId} = useParams()
     const {data, isPending, error} = useFetch(`${cocktailId}`, undefined, `cocktails/${cocktailId}`);
