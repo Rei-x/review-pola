@@ -63,8 +63,8 @@ const CocktailList = () => {
     if (isPending) return (
         <div>
             <div className={'grid gap-4 p-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 sm:px-16 md:px-24'}>
-                {Array(15).fill(null).map((cocktail: Cocktail) => (
-                    <div className={'flex flex-col space-y-4 pb-8'}>
+                {Array(15).fill(null).map((value, index, ) => (
+                    <div key={index} className={'flex flex-col space-y-4 pb-8'}>
                         <Skeleton className={'h-[30px]  rounded-3xl'}/>
                         <Skeleton className={'h-[125px]  rounded-xl'}/>
                     </div>
