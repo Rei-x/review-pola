@@ -5,13 +5,19 @@ import IngredientsList from "./IngredientsList";
 import {Separator} from "@/components/ui/separator";
 import * as React from "react";
 import {Badge} from "@/components/ui/badge";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const CocktailDetails = () => {
     const {cocktailId} = useParams()
     const {data, isPending, error} = useFetch(`${cocktailId}`, undefined, `cocktails/${cocktailId}`);
 
     if (isPending) {
-        return <div>Loading...</div>
+        return <div className={'sm:grid md:grid-cols-2 sm:grid-cols-1 lg:px-16 px-4 gap-4 space-y-10'}>
+            <Skeleton className={'sm:hidden h-[40px]'}/>
+            <Skeleton className={'sm:hidden h-[300px]'}/>
+            <Skeleton className={'hidden sm:block h-[600px]'}/>
+            <Skeleton className={'hidden sm:block h-[70px]'}/>
+        </div>
     }
     if (error) {
         return <div>Something went wrong</div>

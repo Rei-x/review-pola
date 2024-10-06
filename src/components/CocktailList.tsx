@@ -8,6 +8,7 @@ import {useGetSearchParams} from "@/lib/searchParamsManager";
 import {favouritesAtom} from "@/atoms/favouritesAtom";
 import {searchAtom} from "@/atoms/searchAtom";
 import {currentSortAtom} from "@/atoms/sortAtom";
+import {Skeleton} from "@/components/ui/skeleton";
 
 
 const CocktailList = () => {
@@ -59,7 +60,18 @@ const CocktailList = () => {
     const {data, isPending, error} = useFetch('cocktails', undefined, 'cocktails', queryParams);
 
 
-    if (isPending) return <div>Loading...</div>;
+    if (isPending) return (
+        <div>
+            <div className={'grid gap-4 p-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 sm:px-16 md:px-24'}>
+                {Array(15).fill(null).map((cocktail: Cocktail) => (
+                    <div className={'flex flex-col space-y-4 pb-8'}>
+                        <Skeleton className={'h-[30px]  rounded-3xl'}/>
+                        <Skeleton className={'h-[125px]  rounded-xl'}/>
+                    </div>
+
+                ))}
+            </div>
+    </div>)
 
     if (error) return <div>Something went wrong</div>;
 
@@ -69,7 +81,17 @@ const CocktailList = () => {
         return <div className={'items-center justify-center flex'}>No favourites.</div>;
     }
 
-    const {currentPage, firstPage,firstPageUrl,lastPage,lastPageUrl,nextPageUrl,perPage,previousPageUrl,total} = data.meta
+    const {
+        currentPage,
+        firstPage,
+        firstPageUrl,
+        lastPage,
+        lastPageUrl,
+        nextPageUrl,
+        perPage,
+        previousPageUrl,
+        total
+    } = data.meta
 
 
     return (
